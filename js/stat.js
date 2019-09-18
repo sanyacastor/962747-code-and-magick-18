@@ -1,50 +1,69 @@
 'use strict';
 
 window.renderStatistics = function (ctx, names, times) {
-  ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
-  ctx.fillRect(110, 20, 420, 270);
 
-  ctx.fillStyle = '#fff';
-  ctx.fillRect(100, 10, 420, 270);
+  var TABLE_WIDTH = 420;
+  var TABLE_HEIGHT = 270;
+  var TABLE_XPOS = 110;
+  var TABLE_YPOS = 20;
+  var TABLE_SHADOW_XPOS = 100;
+  var TABLE_SHADOW_YPOS = 10;
+  var TEXT_XPOS = 120;
+  var TEXT_YPOS = 40;
+  var TEXT_LINE_HEIGHT = 20;
+  var USERNAME_XPOS = 260;
+  var TIME_XPOS = 230;
+  var HISTOGRAM_MAX_HEIGHT = 150;
+  var HISTOGRAM_WIDTH = 40;
+  var HISTOGRAM_GAP = 90;
+  var HISTOGRAM_XPOS = 240;
 
-  ctx.font = '16px PT Sans';
-  ctx.fillStyle = '#000';
-  ctx.fillText('Ура вы победили!', 120, 40);
-  ctx.fillText('Список результатов:', 120, 60);
+  function drawTable() {
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+    ctx.fillRect(TABLE_XPOS, TABLE_YPOS, TABLE_WIDTH, TABLE_HEIGHT);
 
-  var maxTime = 0;
+    ctx.fillStyle = '#fff';
+    ctx.fillRect(TABLE_SHADOW_XPOS, TABLE_SHADOW_YPOS, TABLE_WIDTH, TABLE_HEIGHT);
 
-  for (var i = 0; i <= times.length; i++) {
-    if (times[i] > maxTime) {
-      maxTime = times[i];
+    ctx.fillStyle = '#000';
+    ctx.font = '16px PT Sans';
+    ctx.fillText('Ура вы победили!', TEXT_XPOS, TEXT_YPOS);
+    ctx.fillText('Список результатов:', TEXT_XPOS, TEXT_YPOS + TEXT_LINE_HEIGHT);
+  }
+
+  function getMaxItem(items) {
+    var max = items[0];
+    for (var i = 0; i <= items.length; i++) {
+      if (items[i] > max) {
+        max = items[i];
+      }
+    }
+    return max;
+  }
+
+  function drawhistogram(users, scores, maxtime) {
+    var histogramStartPoint = 150;
+
+    for (var i = 0; i < scores.length; i++) {
+
+      var histogramHeight = (scores[i] * HISTOGRAM_MAX_HEIGHT / maxtime).toFixed(0);
+      var rnd = (Math.random() * 100).toFixed(0) + '%';
+
+      ctx.fillStyle = (users[i] === 'Вы') ? 'red' : 'hsl(237, 100%,' + rnd + ')';
+
+      ctx.fillRect(histogramStartPoint, HISTOGRAM_XPOS - histogramHeight, HISTOGRAM_WIDTH, histogramHeight);
+
+      ctx.fillStyle = '#000';
+      ctx.fillText(users[i], histogramStartPoint, USERNAME_XPOS);
+      ctx.fillText(scores[i].toFixed(0), histogramStartPoint, TIME_XPOS - histogramHeight);
+
+      histogramStartPoint += HISTOGRAM_GAP;
     }
   }
 
-  var xStartPoint = 150;
-
-  for (i = 0; i < times.length; i++) {
-
-    var score = (times[i] * 150 / maxTime).toFixed(0);
-    var rnd = (Math.random() * 100).toFixed(0) + '%';
-
-    if (names[i] === 'Вы') {
-      ctx.fillStyle = 'red';
-      ctx.fillRect(xStartPoint, 240 - score, 40, score);
-    } else {
-      ctx.fillStyle = 'hsl(237, 100%,' + rnd + ')';
-      ctx.fillRect(xStartPoint, 240 - score, 40, score);
-    }
-
-    ctx.font = '16px PT Sans';
-    ctx.fillStyle = '#000';
-    ctx.fillText(names[i], xStartPoint, 260);
-
-    ctx.font = '16px PT Sans';
-    ctx.fillStyle = '#000';
-    ctx.fillText(times[i].toFixed(0), xStartPoint, 230 - score);
-
-    xStartPoint += 90;
-  }
+  drawTable();
+  var maxTime = getMaxItem(times);
+  drawhistogram(names, times, maxTime);
 
 };
 
