@@ -46,9 +46,9 @@ var FIREBALL_COLORS = [
 var ESC_KEYCODE = 27;
 var ENTER_KEYCODE = 13;
 
-var userDialog = document.querySelector('.setup');
-var openDialog = document.querySelector('.setup-open');
-var closeDialog = userDialog.querySelector('.setup-close');
+var setupElement = document.querySelector('.setup');
+var setupOpenElement = document.querySelector('.setup-open');
+var setupCloseElement = setupElement.querySelector('.setup-close');
 
 function onDialogEscPress(evt) {
   if (evt.keyCode === ESC_KEYCODE) {
@@ -57,22 +57,22 @@ function onDialogEscPress(evt) {
 }
 
 function showDialog() {
-  userDialog.classList.remove('hidden');
+  setupElement.classList.remove('hidden');
   document.addEventListener('keydown', onDialogEscPress);
 }
 
 function hideDialog() {
-  userDialog.classList.add('hidden');
+  setupElement.classList.add('hidden');
   document.removeEventListener('keydown', onDialogEscPress);
 }
 
-openDialog.addEventListener('click', function () {
+setupOpenElement.addEventListener('click', function () {
   showDialog();
 });
 
-closeDialog.addEventListener('click', hideDialog);
+setupCloseElement.addEventListener('click', hideDialog);
 
-openDialog.addEventListener('keydown', function (evt) {
+setupOpenElement.addEventListener('keydown', function (evt) {
   if (evt.keyCode === ENTER_KEYCODE) {
     showDialog();
   }
@@ -88,24 +88,22 @@ var eyesColorInput = document.querySelector('input[name="eyes-color"]');
 var fireballColorInput = document.querySelector('input[name="fireball-color"]');
 
 wizardCoatColor.addEventListener('click', function () {
-  onCoatClick(COAT_COLORS);
+  getRandomCoatColor(COAT_COLORS);
 });
 wizardEyesColor.addEventListener('click', function () {
-  onEyesClick(EYES_COLORS);
+  getRandomEyesColor(EYES_COLORS);
 });
 wizardFireballColor.addEventListener('click', function () {
-  onFireballClick(FIREBALL_COLORS);
+  getRandomFireballColor(FIREBALL_COLORS);
 });
 
-function onEyesClick(arr) {
+function getRandomEyesColor(arr) {
   wizardEyesColor.style.fill = eyesColorInput.value = getRandom(arr);
 }
-
-function onCoatClick(arr) {
+function getRandomCoatColor(arr) {
   wizardCoatColor.style.fill = coatColorInput.value = getRandom(arr);
 }
-
-function onFireballClick(arr) {
+function getRandomFireballColor(arr) {
   wizardFireballColor.style.background = fireballColorInput.value = getRandom(arr);
 }
 
