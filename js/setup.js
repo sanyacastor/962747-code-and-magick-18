@@ -35,8 +35,77 @@ var EYES_COLORS = [
   'yellow',
   'green'];
 
-var userDialog = document.querySelector('.setup');
-userDialog.classList.remove('hidden');
+var FIREBALL_COLORS = [
+  '#ee4830',
+  '#30a8ee',
+  '#5ce6c0',
+  '#e848d5',
+  '#e6e848'
+];
+
+var ESC_KEYCODE = 27;
+var ENTER_KEYCODE = 13;
+
+var setupElement = document.querySelector('.setup');
+var setupOpenElement = document.querySelector('.setup-open');
+var setupCloseElement = setupElement.querySelector('.setup-close');
+
+function onDialogEscPress(evt) {
+  if (evt.keyCode === ESC_KEYCODE) {
+    hideDialog();
+  }
+}
+
+function showDialog() {
+  setupElement.classList.remove('hidden');
+  document.addEventListener('keydown', onDialogEscPress);
+}
+
+function hideDialog() {
+  setupElement.classList.add('hidden');
+  document.removeEventListener('keydown', onDialogEscPress);
+}
+
+setupOpenElement.addEventListener('click', function () {
+  showDialog();
+});
+
+setupCloseElement.addEventListener('click', hideDialog);
+
+setupOpenElement.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    showDialog();
+  }
+});
+
+var wizardSetup = document.querySelector('.setup-player');
+var wizardCoatColor = wizardSetup.querySelector('.wizard-coat');
+var wizardEyesColor = wizardSetup.querySelector('.wizard-eyes');
+var wizardFireballColor = wizardSetup.querySelector('.setup-fireball-wrap');
+
+var coatColorInput = document.querySelector('input[name="coat-color"]');
+var eyesColorInput = document.querySelector('input[name="eyes-color"]');
+var fireballColorInput = document.querySelector('input[name="fireball-color"]');
+
+wizardCoatColor.addEventListener('click', function () {
+  getRandomCoatColor(COAT_COLORS);
+});
+wizardEyesColor.addEventListener('click', function () {
+  getRandomEyesColor(EYES_COLORS);
+});
+wizardFireballColor.addEventListener('click', function () {
+  getRandomFireballColor(FIREBALL_COLORS);
+});
+
+function getRandomEyesColor(arr) {
+  wizardEyesColor.style.fill = eyesColorInput.value = getRandom(arr);
+}
+function getRandomCoatColor(arr) {
+  wizardCoatColor.style.fill = coatColorInput.value = getRandom(arr);
+}
+function getRandomFireballColor(arr) {
+  wizardFireballColor.style.background = fireballColorInput.value = getRandom(arr);
+}
 
 var similarList = document.querySelector('.setup-similar');
 similarList.classList.remove('hidden');
