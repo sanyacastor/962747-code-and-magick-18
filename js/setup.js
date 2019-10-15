@@ -56,6 +56,11 @@ function onDialogEscPress(evt) {
   }
 }
 
+function resetElPosition(el) {
+  el.style.top = '';
+  el.style.left = '';
+}
+
 function showDialog() {
   setupElement.classList.remove('hidden');
   document.addEventListener('keydown', onDialogEscPress);
@@ -64,6 +69,7 @@ function showDialog() {
 function hideDialog() {
   setupElement.classList.add('hidden');
   document.removeEventListener('keydown', onDialogEscPress);
+  resetElPosition(setupElement);
 }
 
 setupOpenElement.addEventListener('click', function () {
@@ -179,6 +185,7 @@ similarListElement.appendChild(fragment);
 
     var onMouseMove = function (moveEvt) {
       moveEvt.preventDefault();
+
       dragged = true;
 
       var shift = {
@@ -215,6 +222,4 @@ similarListElement.appendChild(fragment);
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
   });
-
-
 })();
