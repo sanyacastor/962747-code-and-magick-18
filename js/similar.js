@@ -17,14 +17,14 @@
     var newColor = window.random.get(window.util.COAT_COLORS);
     wizardCoatColor.style.fill = newColor;
     coatColor = newColor;
-    updateWizards();
+    window.debounce(updateWizards);
   });
 
   wizardEyesColor.addEventListener('click', function () {
     var newColor = window.random.get(window.util.EYES_COLORS);
     wizardEyesColor.style.fill = newColor;
     eyesColor = newColor;
-    updateWizards();
+    window.debounce(updateWizards);
   });
 
   wizardFireballColor.addEventListener('click', function () {
