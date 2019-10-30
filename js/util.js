@@ -4,26 +4,6 @@
   var ESC_KEYCODE = 27;
   var ENTER_KEYCODE = 13;
 
-  var NAMES = [
-    'Иван',
-    'Хуан Себастьян',
-    'Мария',
-    'Кристоф',
-    'Виктор',
-    'Юлия',
-    'Люпита',
-    'Вашингтон'];
-
-  var SURNAMES = [
-    'да Марья',
-    'Верон',
-    'Мирабелла',
-    'Вальц',
-    'Онопко',
-    'Топольницкая',
-    'Нионго',
-    'Ирвинг'];
-
   var COAT_COLORS = [
     'rgb(101, 137, 164)',
     'rgb(241, 43, 107)',
@@ -53,8 +33,6 @@
     FIREBALL_COLORS: FIREBALL_COLORS,
     EYES_COLORS: EYES_COLORS,
     COAT_COLORS: COAT_COLORS,
-    SURNAMES: SURNAMES,
-    NAMES: NAMES
   };
 
 })();

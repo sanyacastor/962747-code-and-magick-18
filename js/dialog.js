@@ -29,7 +29,6 @@
   }
 
   setupOpenElement.addEventListener('click', function () {
-    window.backend.load(window.setup.generateWizards, errorHandler);
     showDialog();
   });
 
@@ -94,22 +93,9 @@
     document.addEventListener('mouseup', onMouseUp);
   });
 
-  function errorHandler(err) {
-    var fragment = document.createElement('div');
-    fragment.style = 'z-index: 99; margin: 0, auto; padding: 20px; width: 100%; background-color: coral; text-align:center;';
-    fragment.style.position = 'absolute';
-    fragment.style.top = '0';
-    fragment.textContent = err;
-    document.querySelector('body').appendChild(fragment);
-
-    setTimeout(function () {
-      fragment.style.display = 'none';
-    }, 3000);
-
-  }
-
   form.addEventListener('submit', function (evt) {
-    window.backend.save(new FormData(form), hideDialog, errorHandler);
+
+    window.backend.save(new FormData(form), hideDialog, window.backend.error);
 
     evt.preventDefault();
   });
