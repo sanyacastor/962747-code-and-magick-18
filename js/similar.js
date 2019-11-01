@@ -7,25 +7,37 @@
   var coatColor = '';
 
   var wizardSetup = document.querySelector('.setup-player');
-  var wizardCoatColor = wizardSetup.querySelector('.wizard-coat');
-  var wizardEyesColor = wizardSetup.querySelector('.wizard-eyes');
+  var wizardCoat = wizardSetup.querySelector('.wizard-coat');
+  var wizardEyes = wizardSetup.querySelector('.wizard-eyes');
   var fireballColorInput = document.querySelector('input[name="fireball-color"]');
   var wizardFireballColor = wizardSetup.querySelector('.setup-fireball-wrap');
 
 
-  wizardCoatColor.addEventListener('click', function () {
+  wizardCoat.addEventListener('click', coatClickHandler);
+  wizardEyes.addEventListener('click', eyesClickHandler);
+
+  function coatClickHandler() {
     var newColor = window.random.get(window.util.COAT_COLORS);
-    wizardCoatColor.style.fill = newColor;
-    coatColor = newColor;
-    window.debounce(updateWizards);
+    wizardCoat.style.fill = newColor;
+    coatColorChangeHandler(newColor);
+  }
+
+  function eyesClickHandler() {
+    var newColor = window.random.get(window.util.EYES_COLORS);
+    wizardEyes.style.fill = newColor;
+    eyesColorChangeHandler(newColor);
+  }
+
+  var coatColorChangeHandler = window.debounce(function (color) {
+    coatColor = color;
+    updateWizards();
   });
 
-  wizardEyesColor.addEventListener('click', function () {
-    var newColor = window.random.get(window.util.EYES_COLORS);
-    wizardEyesColor.style.fill = newColor;
-    eyesColor = newColor;
-    window.debounce(updateWizards);
+  var eyesColorChangeHandler = window.debounce(function (color) {
+    eyesColor = color;
+    updateWizards();
   });
+
 
   wizardFireballColor.addEventListener('click', function () {
     wizardFireballColor.style.background = fireballColorInput.value = window.random.get(window.util.FIREBALL_COLORS);
@@ -56,7 +68,7 @@
   }
 
   function updateWizards() {
-    window.render.generateWizards(wizards.sort(function (left, right) {
+    window.render.generateWizards(wizards.slice().sort(function (left, right) {
       var rankDiff = getRank(right) - getRank(left);
       if (rankDiff === 0) {
         rankDiff = namesComparator(left.name, right.name);
@@ -67,7 +79,7 @@
 
   function sucessHandler(data) {
     wizards = data;
-    window.render.generateWizards(wizards);
+    updateWizards();
   }
 
   window.backend.load(sucessHandler, window.backend.error);
